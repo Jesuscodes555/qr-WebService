@@ -68,7 +68,7 @@ app.get('/codigos', (req, res) => {
 
 // 2. GET /codigos/{id} - Obtener un código específico por ID
 // El patrón [a-zA-Z0-9]+ asegura que el ID solo contenga letras y números
-app.get('/codigos/:id([a-zA-Z0-9]+)', (req, res) => {
+app.get('/codigos/:id([a-zA-Z0-9-]+)', (req, res) => {
   // Busca el código con el ID especificado
   const codigo = codigos.find(c => c.id === req.params.id);
   
