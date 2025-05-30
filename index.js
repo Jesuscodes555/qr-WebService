@@ -81,7 +81,7 @@ app.get('/codigos/:id([a-zA-Z0-9-]+)', (req, res) => {
 // 3. POST /codigos - Crear un nuevo código QR
 app.post('/codigos', (req, res) => {
   // Extrae los datos del cuerpo de la solicitud
-  const { data, type } = req.body;
+  const { data, type, timestamp } = req.body;
   
   // Validación básica: el campo "data" es obligatorio
   if (!data) {
@@ -91,8 +91,9 @@ app.post('/codigos', (req, res) => {
   // Crea un nuevo objeto de código QR
   const newCodigo = {
     id: uuidv4().substring(0, 12),  // Genera un ID único y lo acorta a 12 caracteres
-    data,  // Datos del código QR
-    type: type || 'qr'  // Usa el tipo proporcionado o 'qr' por defecto
+    data,                           // Datos del código QR
+    type: type || 'qr',             // Tipo por defecto: 'qr'
+    timestamp: timestamp || new Date().toISOString()  // Si no se manda, usa timestamp actual
   };
   
   // Añade el nuevo código al array
@@ -100,6 +101,7 @@ app.post('/codigos', (req, res) => {
   // Devuelve el nuevo código con un estado 201 Created
   res.status(201).json(newCodigo);
 });
+
 
 // 4. DELETE /codigos/{id} - Eliminar un código QR por ID
 app.delete('/codigos/:id', (req, res) => {
